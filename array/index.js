@@ -39,7 +39,7 @@ const duplicateZeros = function (arr) {
     }
 };
 
-var merge = function(nums1, m, nums2, n) {
+var merge = function (nums1, m, nums2, n) {
     //! Ý tưởng: tạo 3 con trỏ
     /*
         ! i: con trỏ từ phần tử đầu đến phần tử m trong nums1 (m - 1)
@@ -53,8 +53,6 @@ var merge = function(nums1, m, nums2, n) {
     // Hợp nhất từ cuối
 
     while (i >= 0 && j >= 0) {
-        console.log('k = ' + k + ' i = ' + i + ' j = ' + j);
-
         if (nums1[i] > nums2[j]) {
             nums1[k] = nums1[i];
             i--;
@@ -62,7 +60,6 @@ var merge = function(nums1, m, nums2, n) {
             nums1[k] = nums2[j];
             j--;
         }
-        console.log(nums1)
         k--;
     }
 
@@ -75,6 +72,62 @@ var merge = function(nums1, m, nums2, n) {
 
 };
 
+var removeElement = function (nums, val) {
+    let writePointer = 0; // Vị trí để ghi các giá trị không phải `val`.
+
+    // Bước 1: Lọc các phần tử khác `val` và ghi đè lên mảng từ đầu.
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] !== val) {
+            nums[writePointer] = nums[i];
+            writePointer++;
+        }
+    }
+
+    // Bước 2: Thay phần còn lại của mảng bằng `_`.
+    for (let i = writePointer; i < nums.length; i++) {
+        let ii = nums.indexOf(nums[i])
+        nums.splice(ii, 1)
+    }
+
+    console.log(nums);
+};
+
+var checkIfExist = function (arr) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] % 2 === 0) {
+            let jIndex = -1
+            for (let j = 0; j < arr.length; j++) {
+                if (arr[i] / 2 === arr[j])
+                    jIndex = j
+            }
+            if (jIndex === -1) continue;
+
+            if (jIndex !== i)
+                return true
+        }
+    }
+    return false
+};
+
+
+var validMountainArray = function(arr) {
+    if (arr.length <= 2) return false
+
+    let top1 = top2 = arr[0]
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i - 1] < arr[i]) top1 = arr[i]
+        else break
+    }
+
+    for (let i = arr.length - 2; i >= 0; i--) {
+        if (arr[i + 1] < arr[i]) top2 = arr[i]
+        else break
+    }
+
+    if (top1 === top2 && top1 !== arr[0] && top2 !== arr[arr.length-1]) return true
+    return false
+
+};
 const run = async () => {
     let arr = [1, 0, 2, 3, 0, 4, 5, 0]
 
@@ -92,14 +145,20 @@ const run = async () => {
         ? Cho 2 mảng số nguyên nums1 và nums2, đều đã được sắp xếp theo thứ tự tăng dần
         ? Hợp nhất 2 mảng nums1 và nums2 vào nums1 với kích thước nums1 = m + n
     */
-    nums1 = [1,2,3,0,0,0]
+    nums1 = [1, 2, 3, 0, 0, 0]
     m = 3
-    nums2 = [2,5,6]
+    nums2 = [2, 5, 6]
     n = 3
     merge(nums1, m, nums2, n)
 
-    console.log(nums1)
+    let nums = [3, 2, 2, 3]
+
+    let val = 3
+    removeElement(nums, val)
+    console.log(checkIfExist([7, 1, 14, 11]))
+    validMountainArray([2,0,2])
 }
+
 
 run(true).catch()
 
